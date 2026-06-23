@@ -1,0 +1,6 @@
+plugins:
+  discourse_tag_intersection_navigator_enabled:
+    default: true
+  discourse_tag_intersection_navigator_all_word:
+    default: "everything"
+    client: true

@@ -1,0 +1,4 @@
+en:
+  site_settings:
+    discourse_tag_intersection_navigator_enabled: "Enable native tag filter navigation helpers"
+    discourse_tag_intersection_navigator_all_word: "Legacy placeholder used only when redirecting old /tags/intersection URLs"
