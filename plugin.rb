@@ -12,6 +12,8 @@ module ::DiscourseTagIntersectionNavigator
   PLUGIN_NAME = "discourse-tag-intersection-navigator".freeze
 end
 
+register_asset "stylesheets/common/native-tag-filter.scss"
+
 require_relative "lib/discourse_tag_intersection_navigator/engine"
 
 after_initialize do

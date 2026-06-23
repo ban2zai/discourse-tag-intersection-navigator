@@ -1,0 +1,23 @@
+.category-breadcrumb {
+  > li:has(.tag-drop) {
+    display: none;
+  }
+
+  .native-tag-filter-chooser {
+    max-width: 100%;
+    min-width: 12rem;
+  }
+
+  .native-tag-filter-chooser .select-kit-header {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .category-breadcrumb {
+    .native-tag-filter-chooser {
+      min-width: 0;
+      width: 100%;
+    }
+  }
+}

@@ -143,14 +143,14 @@ export function currentTagFilterState(router) {
 
 export function buildNativeTagFilterUrl({
   filter = "latest",
-  tags = [],
+  tags = null,
   category = null,
   categoryPath = null,
   queryParams = {},
 } = {}) {
   const normalizedFilter = safeFilter(filter);
   const selectedTags = normalizeTags(
-    tags.length > 0 ? tags : tagsFromQueryParam(queryParams.tags)
+    tags === null ? tagsFromQueryParam(queryParams.tags) : tags
   );
   const params = new URLSearchParams();
   const pathCategoryUrl = categoryPath || categoryUrl(category);

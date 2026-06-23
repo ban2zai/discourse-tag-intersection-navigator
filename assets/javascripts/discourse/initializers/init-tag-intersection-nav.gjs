@@ -1,4 +1,5 @@
 import { action } from "@ember/object";
+import { service } from "@ember/service";
 import { addDiscoveryQueryParam } from "discourse/controllers/discovery/list";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import DiscourseURL from "discourse/lib/url";
@@ -7,6 +8,7 @@ import {
   buildNativeTagFilterUrl,
   currentTagFilterState,
   nativeUrlForCategoryLink,
+  normalizeTagName,
   TAG_FILTERS,
 } from "../lib/tag-filter-url";
 
@@ -176,6 +178,30 @@ export default {
         preserveCategoryLinkClick(event, router);
       };
       document.addEventListener("click", preserveCategoryClickHandler);
+
+      api.modifyClass(
+        "component:tags-intersection-chooser",
+        (Superclass) =>
+          class extends Superclass {
+            @service router;
+
+            @action
+            onChange(tags) {
+              const state = currentTagFilterState(this.router);
+              const tagNames = tags.map(normalizeTagName).filter(Boolean);
+
+              DiscourseURL.routeToUrl(
+                buildNativeTagFilterUrl({
+                  filter: state.filter,
+                  tags: tagNames,
+                  category: state.category || state.categoryId,
+                  categoryPath: state.categoryPath,
+                  queryParams: state.queryParams,
+                })
+              );
+            }
+          }
+      );
 
       api.modifyClass(
         "component:category-drop",

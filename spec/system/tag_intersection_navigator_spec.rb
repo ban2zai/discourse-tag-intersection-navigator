@@ -6,6 +6,9 @@ require_relative "../plugin_helper"
 
 RSpec.describe "Tag Intersection Navigator" do
   let(:discovery) { PageObjects::Pages::Discovery.new }
+  let(:tag_filter_chooser) do
+    PageObjects::Components::SelectKit.new(".native-tag-filter-chooser")
+  end
 
   fab!(:user)
   fab!(:tag_1) { Fabricate(:tag, name: "test-tag1") }
@@ -52,6 +55,52 @@ RSpec.describe "Tag Intersection Navigator" do
   end
 
   describe "native tag filters" do
+    it "allows selecting multiple tags from the native filter chooser" do
+      visit("/latest")
+
+      expect(tag_filter_chooser).to be_visible
+      expect(page).to have_no_css(
+        ".category-breadcrumb .tag-drop",
+        visible: :visible,
+      )
+
+      tag_filter_chooser.expand
+      tag_filter_chooser.select_row_by_name("test-tag1")
+
+      expect(current_uri.path).to eq("/latest")
+      expect_tag_query("test-tag1")
+
+      tag_filter_chooser.expand if tag_filter_chooser.is_collapsed?
+      tag_filter_chooser.select_row_by_name("test-tag2")
+
+      expect(current_uri.path).to eq("/latest")
+      expect_tag_query("test-tag1", "test-tag2")
+      expect(discovery.topic_list).to have_topic(topic_2)
+      expect(discovery.topic_list).to have_topic(topic_3)
+      expect(discovery.topic_list).to have_no_topic(topic_1)
+
+      tag_filter_chooser.expand if tag_filter_chooser.is_collapsed?
+      tag_filter_chooser.unselect_by_name("test-tag1")
+
+      expect(current_uri.path).to eq("/latest")
+      expect_tag_query("test-tag2")
+    end
+
+    it "preserves the category route when selecting tags from the chooser" do
+      visit(category_filter_path)
+
+      tag_filter_chooser.expand
+      tag_filter_chooser.select_row_by_name("test-tag1")
+
+      tag_filter_chooser.expand if tag_filter_chooser.is_collapsed?
+      tag_filter_chooser.select_row_by_name("test-tag2")
+
+      expect(current_uri.path).to eq(category_filter_path)
+      expect_tag_query("test-tag1", "test-tag2")
+      expect(discovery.topic_list).to have_topic(topic_2)
+      expect(discovery.topic_list).to have_no_topic(topic_3)
+    end
+
     it "filters latest topics through native tags query params" do
       visit("/latest?#{tags_query("test-tag1", "test-tag2")}")
 
