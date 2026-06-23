@@ -7,21 +7,114 @@
     display: none;
   }
 
-  .native-tag-filter-chooser {
+  > li,
+  .native-tag-filter-chooser,
+  .native-tag-filter-chooser .select-kit-header {
+    box-sizing: border-box;
     max-width: 100%;
+    min-width: 0;
+  }
+
+  .native-tag-filter-chooser {
     min-width: 12rem;
   }
 
   .native-tag-filter-chooser .select-kit-header {
     width: 100%;
   }
+
+  .native-tag-filter-chooser .select-kit-header-wrapper,
+  .native-tag-filter-chooser .formatted-selection,
+  .native-tag-filter-chooser .selected-name,
+  .native-tag-filter-chooser .name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .native-tag-filter-chooser .select-kit-body {
+    max-width: calc(100vw - 2rem) !important;
+    min-width: min(100%, calc(100vw - 2rem));
+    overflow-x: hidden;
+  }
 }
 
 @media screen and (max-width: 639px) {
-  .category-breadcrumb {
-    .native-tag-filter-chooser {
-      min-width: 0;
-      width: 100%;
-    }
+  .navigation-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.75rem;
+    width: 100%;
+  }
+
+  .navigation-container #navigation-bar {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    min-width: 0;
+    width: 100%;
+    margin: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .navigation-container .category-breadcrumb {
+    grid-column: 1;
+    grid-row: 2;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .navigation-container .category-breadcrumb > li {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .navigation-container .category-breadcrumb .category-drop,
+  .navigation-container .category-breadcrumb .native-tag-filter-chooser {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .navigation-container .navigation-controls {
+    grid-column: 1;
+    grid-row: 3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .navigation-container .navigation-controls .btn,
+  .navigation-container .navigation-controls .d-combo-button {
+    min-width: 0;
+  }
+
+  .navigation-container .navigation-controls .mark-all-read-btn {
+    flex: 1 1 auto;
+    max-width: 100%;
+  }
+
+  .navigation-container .navigation-controls .mark-all-read-btn .d-button-label,
+  .navigation-container #create-topic .d-button-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .navigation-container .navigation-controls .mark-all-read-btn {
+    flex-basis: calc(100% - 3rem);
   }
 }

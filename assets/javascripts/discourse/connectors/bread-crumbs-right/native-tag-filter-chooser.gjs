@@ -94,12 +94,14 @@ export default class NativeTagFilterChooserConnector extends Component {
   }
 
   <template>
-    <TagsIntersectionChooser
-      @currentCategory={{this.currentCategory}}
-      @mainTag={{this.mainTag}}
-      @additionalTags={{this.additionalTags}}
-      @options={{hash categoryId=this.categoryId}}
-      class="native-tag-filter-chooser"
-    />
+    <li class="native-tag-filter-chooser-item">
+      <TagsIntersectionChooser
+        @currentCategory={{this.currentCategory}}
+        @mainTag={{this.mainTag}}
+        @additionalTags={{this.additionalTags}}
+        @options={{hash categoryId=this.categoryId}}
+        class="native-tag-filter-chooser"
+      />
+    </li>
   </template>
 }
