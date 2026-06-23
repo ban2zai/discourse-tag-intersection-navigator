@@ -11,12 +11,12 @@ import {
 export default class NativeTagFilterChooserConnector extends Component {
   static shouldRender(args, context, owner) {
     const router = owner.lookup("service:router");
+    const outletArgs = args.outletArgs || args;
 
     return (
-      context.siteSettings.discourse_tag_intersection_navigator_enabled &&
       context.siteSettings.tagging_enabled &&
-      args.showTagsSection &&
-      !args.editingCategory &&
+      outletArgs.showTagsSection &&
+      !outletArgs.editingCategory &&
       router.currentRouteName !== "discovery.categories"
     );
   }
@@ -33,9 +33,11 @@ export default class NativeTagFilterChooserConnector extends Component {
   }
 
   get outletTags() {
-    const mainTag = normalizeTagName(this.args.outletArgs.tag);
+    const mainTag = normalizeTagName(this.args.outletArgs?.tag || this.args.tag);
     const additionalTags = []
-      .concat(this.args.outletArgs.additionalTags || [])
+      .concat(
+        this.args.outletArgs?.additionalTags || this.args.additionalTags || []
+      )
       .map(normalizeTagName);
 
     return [mainTag, ...additionalTags].filter(Boolean);
@@ -78,10 +80,14 @@ export default class NativeTagFilterChooserConnector extends Component {
     return currentTagFilterState(this.router);
   }
 
+  get currentCategory() {
+    return this.args.outletArgs?.currentCategory || this.args.currentCategory;
+  }
+
   get categoryId() {
     return (
-      this.args.outletArgs.currentCategory?.id ||
-      this.args.outletArgs.currentCategory?.get?.("id") ||
+      this.currentCategory?.id ||
+      this.currentCategory?.get?.("id") ||
       this.state.categoryId ||
       null
     );
@@ -89,7 +95,7 @@ export default class NativeTagFilterChooserConnector extends Component {
 
   <template>
     <TagsIntersectionChooser
-      @currentCategory={{@outletArgs.currentCategory}}
+      @currentCategory={{this.currentCategory}}
       @mainTag={{this.mainTag}}
       @additionalTags={{this.additionalTags}}
       @options={{hash categoryId=this.categoryId}}

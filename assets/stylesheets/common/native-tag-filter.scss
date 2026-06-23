@@ -1,4 +1,8 @@
 .category-breadcrumb {
+  &.hidden:has(.native-tag-filter-chooser) {
+    display: flex !important;
+  }
+
   > li:has(.tag-drop) {
     display: none;
   }
