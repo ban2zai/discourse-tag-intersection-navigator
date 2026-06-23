@@ -80,14 +80,23 @@
   }
 
   .navigation-container .category-breadcrumb > li {
-    flex: 0 1 14rem;
+    flex: 0 1 auto;
     min-width: 10rem;
     margin: 0;
   }
 
   .navigation-container .category-breadcrumb .category-drop,
   .navigation-container .category-breadcrumb .native-tag-filter-chooser {
-    width: 100%;
+    width: auto;
+    min-width: 10rem;
+    max-width: min(18rem, 100vw - 2rem);
+  }
+
+  .navigation-container .category-breadcrumb .select-kit-header-wrapper {
+    display: inline-flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    max-width: 100%;
   }
 }
 
